@@ -15,8 +15,14 @@ router.route('/seats').post((req, res) => {
   const { day, seat, client, email } = req.body;
   const id = uuid();
   const newSeat = { id: id, day, seat, client, email };
-  db.seats.push(newSeat);
-  res.json({ message: 'OK' });
+
+  if(db.seats.some((seatId) => seatId.day == newSeat.day && seatId.seat == newSeat.seat)) {
+    res.json({ message: 'The slot is already taken...' });
+  }
+  else {
+    db.seats.push(newSeat);
+    res.json({ message: 'OK' });
+  }
 });
 
 router.route('/seats/:id').put((req, res) => {
