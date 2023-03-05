@@ -44,7 +44,7 @@ exports.getByGenre = async (req, res) => {
 
 exports.getByPrice = async (req, res) => {
   try {
-    const concert = await Concert.find({ $and: [{ price: { $gt: req.params.price_min }}, { price: { $lt: req.params.price_max }}] });
+    const concert = await Concert.find({ $and: [{ price: { $gte: req.params.price_min }}, { price: { $lte: req.params.price_max }}] });
     if(!concert) res.status(404).json({ message: 'Not found' });
     else res.json(concert);
   }

@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+const NODE_ENV = process.env.NODE_ENV;
+let dbUri = '';
+
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
@@ -22,6 +25,10 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
 
+if(NODE_ENV === 'production') dbUri = 'mongodb+srv://kondzio3002:BInXnJ1mC4eFJCaQ@cluster0.stpm8tp.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+else if (NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDBtest'
+else dbUri = 'mongodb://localhost:27017/NewWaveDB';
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
@@ -30,7 +37,7 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });
 });
 
-mongoose.connect('mongodb+srv://kondzio3002:BInXnJ1mC4eFJCaQ@cluster0.stpm8tp.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
@@ -45,5 +52,7 @@ const server = app.listen(process.env.PORT || 8000, () => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log('New socket!');
+  
 });
+
+module.exports = server;
