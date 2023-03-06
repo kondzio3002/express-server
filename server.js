@@ -25,7 +25,7 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
 
-if(NODE_ENV === 'production') dbUri = 'mongodb+srv://kondzio3002:BInXnJ1mC4eFJCaQ@cluster0.stpm8tp.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+if(NODE_ENV === 'production') dbUri = `mongodb+srv://kondzio3002:${process.env.DB_PASS}@cluster0.stpm8tp.mongodb.net/NewWaveDB?retryWrites=true&w=majority`;
 else if (NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDBtest'
 else dbUri = 'mongodb://localhost:27017/NewWaveDB';
 
