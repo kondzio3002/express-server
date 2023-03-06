@@ -29,6 +29,12 @@ if(NODE_ENV === 'production') dbUri = `mongodb+srv://kondzio3002:${process.env.D
 else if (NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/NewWaveDBtest'
 else dbUri = 'mongodb://localhost:27017/NewWaveDB';
 
+/* Replit */
+
+/* if (NODE_ENV === "test") dbUri = "mongodb://localhost:27017/NewWaveDBtest";
+else if (NODE_ENV === "development") dbUri = "mongodb://localhost:27017/NewWaveDB";
+else dbUri = `mongodb+srv://kondzio3002:${process.env.DB_PASS}@cluster0.stpm8tp.mongodb.net/NewWaveDB?retryWrites=true&w=majority`; */
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
